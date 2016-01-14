@@ -55,49 +55,49 @@ public class DontMissDbHelper {
 //	public static final int ID_COLUMN_POSITION = 1;
 
 	public static final String PROGRAMME_TITLE_COLUMN_2 = "ProgrammeTitle";
-	public static final int PROGRAMME_TITLE_COLUMN_POSITION = 2;
+	public static final int PROGRAMME_TITLE_COLUMN_POSITION_2 = 2;
 
 	public static final String EPISODE_TITLE_COLUMN_3 = "EpisodeTitle";
-	public static final int EPISODE_TITLE_POSITION = 3;
+	public static final int EPISODE_TITLE_POSITION_3 = 3;
 
 	public static final String SYNOPSIS_COLUMN_4 = "Synopsis";
-	public static final int SYNOPSIS_COLUMN_POSITION = 4;
+	public static final int SYNOPSIS_COLUMN_POSITION_4 = 4;
 
 //	String getImageUrl();
 
 	public static final String IMAGE_URL_COLUMN_5 = "ImageUrl";
-	public static final int IMAGE_URL_COLUMN_POSITION = 5;
+	public static final int IMAGE_URL_COLUMN_POSITION_5 = 5;
 
 //	String getChannel();
 
 	public static final String CHANNEL_COLUMN_6 = "Channel";
-	public static final int CHANNEL_COLUMN_POSITION = 6;
+	public static final int CHANNEL_COLUMN_POSITION_6 = 6;
 
 //		String getGenres();
 
 	public static final String GENRES_COLUMN_7 = "Genres";
-	public static final int GENRES__COLUMN_POSITION = 7;
+	public static final int GENRES__COLUMN_POSITION_7 = 7;
 
 //	int getDuration();
 
 	public static final String DURATION_COLUMN_8 = "Duration";
-	public static final int DURATION_COLUMN_POSITION = 8;
+	public static final int DURATION_COLUMN_POSITION_8 = 8;
 
 //	GregorianCalendar getLastBroadcastDate();
 
 	public static final String LAST_BROADCAST_DATE_COLUMN_9 = "LastBroadcastDate";
-	public static final int LAST_BROADCAST_DATE_COLUMN_POSITION = 9;
+	public static final int LAST_BROADCAST_DATE_COLUMN_POSITION_9 = 9;
 
 //	int getDaysRemaining();
 
 	public static final String DAYS_REMAINING_COLUMN_10 = "DaysRemaining";
-	public static final int DAYS_REMAINING_COLUMN_POSITION = 10;
+	public static final int DAYS_REMAINING_COLUMN_POSITION_10 = 10;
 
 //	String getParentalGuidanceWarning();
 
 
 	public static final String PARENTAL_GUIDANCE_WARNING_COLUMN_11 = "ParentalGuidanceWarning";
-	public static final int PARENTAL_GUIDANCE_WARNING_COLUMN_POSITION = 11;
+	public static final int PARENTAL_GUIDANCE_WARNING_COLUMN_POSITION_11 = 11;
 
 // ----	ProgrammeMetadata ----
 
@@ -105,19 +105,19 @@ public class DontMissDbHelper {
 
 
 	public static final String PROGRAMME_ID_COLUMN_12 = "ProgrammeId";
-	public static final int PROGRAMME_ID_COLUMN_POSITION = 12;
+	public static final int PROGRAMME_ID_COLUMN_POSITION_12 = 12;
 
 //		String getEpisodeId();
 
 
 	public static final String EPISODE_ID_COLUMN_13 = "EpisodeId";
-	public static final int EPISODE_ID_COLUMN_POSITION = 13;
+	public static final int EPISODE_ID_COLUMN_POSITION_13 = 13;
 
 //	String getEpisodeProductionId();
 
 
 	public static final String EPISODE_PRODUCTION_ID_COLUMN_14 = "EpisodeProductionId";
-	public static final int EPISODE_PRODUCTION_ID_COLUMN_POSITION = 14;
+	public static final int EPISODE_PRODUCTION_ID_COLUMN_POSITION_14 = 14;
 
 
 
@@ -175,21 +175,21 @@ public class DontMissDbHelper {
 		return values;
 	}
 
-	public long updateRepo (long rowIndex, ProgrammeDataItem item) {
+	public long updateProgramme(long rowIndex, ProgrammeDataItem item) {
 		String where = ROW_ID + " = " + rowIndex;
 		ContentValues contentValues = getContentValues(item);
 		return sqliteDb.update(TABLE, contentValues, where, null);
 	}
 
-	public boolean removeRepo(long rowIndex){
+	public boolean removeProgramme(long rowIndex){
 		return sqliteDb.delete(TABLE, ROW_ID + " = " + rowIndex, null) > 0;
 	}
 
-	public boolean removeAllRepo(){
+	public boolean removeAllProgrammes(){
 		return sqliteDb.delete(TABLE, null, null) > 0;
 	}
 
-	public Cursor getAllRepo(){
+	public Cursor getAllProgrammes(){
 		return sqliteDb.query(TABLE, new String[] {
 			ROW_ID, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4,
 			IMAGE_URL_COLUMN_5, CHANNEL_COLUMN_6, GENRES_COLUMN_7, DURATION_COLUMN_8, LAST_BROADCAST_DATE_COLUMN_9,
@@ -198,7 +198,7 @@ public class DontMissDbHelper {
 		}, null, null, null, null, null);
 	}
 
-	public Cursor getRepo(long rowIndex) {
+	public Cursor getProgramme(long rowIndex) {
 		Cursor res = sqliteDb.query(TABLE, new String[] {
 			ROW_ID, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4,
 			IMAGE_URL_COLUMN_5, CHANNEL_COLUMN_6, GENRES_COLUMN_7, DURATION_COLUMN_8, LAST_BROADCAST_DATE_COLUMN_9,
