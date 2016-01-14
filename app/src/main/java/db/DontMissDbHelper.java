@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import model.ProgrammeDataItem;
 
 public class DontMissDbHelper {
 
@@ -48,8 +51,8 @@ public class DontMissDbHelper {
 	// -------------- DEFINITIONS ------------
 	public static final String TABLE = "DontMiss";
 
-	public static final String ID_COLUMN_1 = "Id";
-	public static final int ID_COLUMN_POSITION = 1;
+//	public static final String ID_COLUMN_1 = "Id";
+//	public static final int ID_COLUMN_POSITION = 1;
 
 	public static final String PROGRAMME_TITLE_COLUMN_2 = "ProgrammeTitle";
 	public static final int PROGRAMME_TITLE_COLUMN_POSITION = 2;
@@ -129,9 +132,9 @@ public class DontMissDbHelper {
 	// Repo CREATION
 	private static final String DATABASE_REPO_CREATE = "create table " + TABLE + " (" +
 		"_id integer primary key autoincrement, " +
-		ID_COLUMN_1 + " text, " +
 		PROGRAMME_TITLE_COLUMN_2 + " text, " +
 		EPISODE_TITLE_COLUMN_3 + " text, " +
+		SYNOPSIS_COLUMN_4 + " text, " +
 		IMAGE_URL_COLUMN_5 + " text" +
 		CHANNEL_COLUMN_6 + " text" +
 		GENRES_COLUMN_7 + " text" +
@@ -146,23 +149,35 @@ public class DontMissDbHelper {
 
 
 
-	// ----------------Repo HELPERS --------------------
-	public long addRepo (String Id, String Name, String FullName, String Owner) {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(ID_COLUMN_1, Id);
-		contentValues.put(PROGRAMME_TITLE_COLUMN_2, Name);
-		contentValues.put(EPISODE_TITLE_COLUMN_3, FullName);
-		contentValues.put(SYNOPSIS_COLUMN_4, Owner);
-		return sqliteDb.insert(TABLE, null, contentValues);
+	// ---------------- HELPERS --------------------
+
+	public long addProgrrameItem (ProgrammeDataItem item) {
+		ContentValues values = getContentValues(item);
+		return sqliteDb.insert(TABLE, null, values);
 	}
 
-	public long updateRepo (long rowIndex,String Id, String Name, String FullName, String Owner) {
+	@NonNull
+	private ContentValues getContentValues(ProgrammeDataItem item) {
+		ContentValues values = new ContentValues();
+		values.put(PROGRAMME_TITLE_COLUMN_2, item.getProgrammeTitle());
+		values.put(EPISODE_TITLE_COLUMN_3, item.getEpisodeTitle());
+		values.put(SYNOPSIS_COLUMN_4, item.getSynopsis());
+		values.put(IMAGE_URL_COLUMN_5, item.getImageUrl());
+		values.put(CHANNEL_COLUMN_6, item.getChannel());
+		values.put(GENRES_COLUMN_7, item.getGenres());
+		values.put(DURATION_COLUMN_8, item.getDuration());
+		values.put(LAST_BROADCAST_DATE_COLUMN_9, item.getLastBroadcastDate().toString());
+		values.put(DAYS_REMAINING_COLUMN_10, item.getDaysRemaining());
+		values.put(PARENTAL_GUIDANCE_WARNING_COLUMN_11, item.getParentalGuidanceWarning());
+		values.put(PROGRAMME_ID_COLUMN_12, item.getProgrammeMetadata().getProgrammeId());
+		values.put(EPISODE_ID_COLUMN_13, item.getProgrammeMetadata().getEpisodeId());
+		values.put(EPISODE_PRODUCTION_ID_COLUMN_14, item.getProgrammeMetadata().getEpisodeProductionId());
+		return values;
+	}
+
+	public long updateRepo (long rowIndex, ProgrammeDataItem item) {
 		String where = ROW_ID + " = " + rowIndex;
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(ID_COLUMN_1, Id);
-		contentValues.put(PROGRAMME_TITLE_COLUMN_2, Name);
-		contentValues.put(EPISODE_TITLE_COLUMN_3, FullName);
-		contentValues.put(SYNOPSIS_COLUMN_4, Owner);
+		ContentValues contentValues = getContentValues(item);
 		return sqliteDb.update(TABLE, contentValues, where, null);
 	}
 
@@ -176,13 +191,19 @@ public class DontMissDbHelper {
 
 	public Cursor getAllRepo(){
 		return sqliteDb.query(TABLE, new String[] {
-			ROW_ID, ID_COLUMN_1, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4
+			ROW_ID, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4,
+			IMAGE_URL_COLUMN_5, CHANNEL_COLUMN_6, GENRES_COLUMN_7, DURATION_COLUMN_8, LAST_BROADCAST_DATE_COLUMN_9,
+			DAYS_REMAINING_COLUMN_10, PARENTAL_GUIDANCE_WARNING_COLUMN_11, PROGRAMME_ID_COLUMN_12,
+			EPISODE_ID_COLUMN_13, EPISODE_PRODUCTION_ID_COLUMN_14
 		}, null, null, null, null, null);
 	}
 
 	public Cursor getRepo(long rowIndex) {
 		Cursor res = sqliteDb.query(TABLE, new String[] {
-			ROW_ID, ID_COLUMN_1, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4
+			ROW_ID, PROGRAMME_TITLE_COLUMN_2, EPISODE_TITLE_COLUMN_3, SYNOPSIS_COLUMN_4,
+			IMAGE_URL_COLUMN_5, CHANNEL_COLUMN_6, GENRES_COLUMN_7, DURATION_COLUMN_8, LAST_BROADCAST_DATE_COLUMN_9,
+			DAYS_REMAINING_COLUMN_10, PARENTAL_GUIDANCE_WARNING_COLUMN_11, PROGRAMME_ID_COLUMN_12,
+			EPISODE_ID_COLUMN_13, EPISODE_PRODUCTION_ID_COLUMN_14
 		}, ROW_ID + " = " + rowIndex, null, null, null, null);
 
 		if(res != null){
